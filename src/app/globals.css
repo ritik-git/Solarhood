@@ -1,26 +1,305 @@
 @import "tailwindcss";
 
 :root {
+  --green: #22C55E;
+  --green-dark: #16A34A;
+  --charcoal: #1F2937;
+  --gold: #FACC15;
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #111827;
+  --surface: #F9FAFB;
+  --surface-2: #F3F4F6;
+  --border: #E5E7EB;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-green: var(--green);
+  --color-charcoal: var(--charcoal);
+  --color-gold: var(--gold);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #111827;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Glass for light backgrounds */
+.glass-light {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Glass for dark UI card */
+.glass-dark {
+  background: rgba(17, 24, 39, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #16A34A, #22C55E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero: bright white-to-green-tinted gradient */
+.hero-gradient {
+  background: linear-gradient(160deg, #f0fdf4 0%, #ffffff 40%, #fefce8 100%);
+}
+
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 48px rgba(34, 197, 94, 0.12);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #22C55E;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 10px rgba(34, 197, 94, 0.4);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #22C55E;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 10px rgba(34, 197, 94, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ORBITAL HERO + BENTO DASHBOARD
+═══════════════════════════════════════════════════════════ */
+
+/* ── Earth Sphere ─────────────────────────────────────────── */
+.earth-sphere {
+  width: clamp(260px, 42vw, 640px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(
+    circle at 33% 30%,
+    #7dd3fc 0%,
+    #2980b9 18%,
+    #1565c0 42%,
+    #0d47a1 65%,
+    #071d3d 85%,
+    #020b1e 100%
+  );
+  box-shadow:
+    inset -38px -28px 90px rgba(0, 0, 0, 0.62),
+    inset 12px 14px 44px rgba(255, 255, 255, 0.07),
+    0 0 90px rgba(77, 182, 227, 0.22),
+    0 0 200px rgba(16, 185, 129, 0.12);
+}
+
+.earth-glow {
+  position: absolute;
+  inset: -20%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(16, 185, 129, 0.18) 0%,
+    rgba(77, 182, 227, 0.1) 35%,
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: earthGlowPulse 4s ease-in-out infinite;
+}
+
+@keyframes earthGlowPulse {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.04); }
+}
+
+/* ── Solar panel sheen ────────────────────────────────────── */
+@keyframes panelSheen {
+  0%, 100% { opacity: 0; transform: translateX(-100%); }
+  40%, 60% { opacity: 1; transform: translateX(100%); }
+}
+
+/* ── Magnetic CTA button ──────────────────────────────────── */
+.magnetic-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1rem;
+  padding: 1rem 2.25rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 40px rgba(16, 185, 129, 0.45),
+    0 8px 32px rgba(16, 185, 129, 0.28);
+  transition: box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.magnetic-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.25), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.magnetic-cta:hover::before   { opacity: 1; }
+.magnetic-cta:hover {
+  box-shadow:
+    0 0 60px rgba(16, 185, 129, 0.55),
+    0 12px 42px rgba(16, 185, 129, 0.38);
+}
+
+/* ── Bento grid ───────────────────────────────────────────── */
+.bento-card {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bento-card:hover {
+  border-color: rgba(16, 185, 129, 0.45);
+  box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.3);
+}
+
+/* Responsive bento */
+@media (max-width: 767px) {
+  .bento-responsive {
+    grid-template-columns: 1fr !important;
+  }
+  .bento-a,
+  .bento-b,
+  .bento-c,
+  .bento-d {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+}
+
+/* ── Bento savings slider (white on emerald card) ─────────── */
+.bento-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.25);
+  outline: none;
+  cursor: pointer;
+}
+.bento-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.bento-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+.bento-slider::-webkit-slider-thumb:hover { transform: scale(1.18); }
+
+/* ── Energy wave ──────────────────────────────────────────── */
+@keyframes waveScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(200px); }
+}
+
+/* ── Map pin animations ───────────────────────────────────── */
+@keyframes pinPop {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.6); opacity: 0.55; }
+}
+
+@keyframes pinRing {
+  0%   { r: 4;  opacity: 0.7; }
+  100% { r: 12; opacity: 0; }
+}
+
+/* ── Scroll caret ─────────────────────────────────────────── */
+@keyframes caretBounce {
+  0%, 100% { transform: translateY(0) translateX(-50%); }
+  50%       { transform: translateY(8px) translateX(-50%); }
+}
+
+/* ── Grain overlay ────────────────────────────────────────── */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.038;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
 }
