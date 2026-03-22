@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
-const WA_NUMBER = "9111157797"; // no + or spaces
+const WA_NUMBER = "9111157797";
 const WA_MESSAGE = encodeURIComponent(
   "Hi Solarhood! I'm interested in solar panel installation for my rooftop. Please share more details."
 );
@@ -13,27 +13,31 @@ export default function WhatsAppButton() {
   const [hovered, setHovered] = useState(false);
 
   return (
+    /* Wrapper: position:relative so the tooltip can anchor to it
+       position:fixed keeps it stuck to the bottom-right corner       */
     <div
       style={{
         position: "fixed",
         bottom: "1.8rem",
         right: "1.8rem",
         zIndex: 9999,
-        display: "flex",
-        alignItems: "center",
-        gap: "0.75rem",
-        flexDirection: "row-reverse",
       }}
     >
-      {/* Tooltip label */}
+      {/* ── Tooltip ─────────────────────────────────────────────────────────
+          Absolutely positioned → NEVER shifts the button → no flicker loop
+          ----------------------------------------------------------------- */}
       <AnimatePresence>
         {hovered && (
           <motion.div
-            initial={{ opacity: 0, x: 12, scale: 0.92 }}
+            initial={{ opacity: 0, x: 10, scale: 0.92 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: 12, scale: 0.92 }}
+            exit={{ opacity: 0, x: 10, scale: 0.92 }}
             transition={{ duration: 0.18 }}
             style={{
+              position: "absolute",
+              right: "74px",          /* button (62px) + gap (12px) */
+              top: "50%",
+              transform: "translateY(-50%)",
               background: "#25D366",
               color: "white",
               fontWeight: 700,
@@ -42,7 +46,7 @@ export default function WhatsAppButton() {
               borderRadius: "9999px",
               whiteSpace: "nowrap",
               boxShadow: "0 4px 20px rgba(37,211,102,0.35)",
-              pointerEvents: "none",
+              pointerEvents: "none", /* tooltip itself can't steal hover */
             }}
           >
             Chat with us on WhatsApp
@@ -50,21 +54,24 @@ export default function WhatsAppButton() {
         )}
       </AnimatePresence>
 
-      {/* Button */}
+      {/* ── Button ──────────────────────────────────────────────────────────
+          onMouseEnter / onMouseLeave are more reliable than Framer Motion's
+          onHoverStart / onHoverEnd (which can mis-fire on layout changes)
+          ----------------------------------------------------------------- */}
       <motion.a
         href={WA_LINK}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
-        onHoverStart={() => setHovered(true)}
-        onHoverEnd={() => setHovered(false)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         whileHover={{ scale: 1.12 }}
         whileTap={{ scale: 0.94 }}
         animate={{
           boxShadow: [
-            "0 0 0 0 rgba(37,211,102,0.55)",
+            "0 0 0 0px rgba(37,211,102,0.55)",
             "0 0 0 14px rgba(37,211,102,0)",
-            "0 0 0 0 rgba(37,211,102,0)",
+            "0 0 0 0px rgba(37,211,102,0)",
           ],
         }}
         transition={{
@@ -72,18 +79,17 @@ export default function WhatsAppButton() {
           scale: { type: "spring", stiffness: 300, damping: 18 },
         }}
         style={{
+          display: "flex",
           width: "62px",
           height: "62px",
           borderRadius: "50%",
           background: "#25D366",
-          display: "flex",
           alignItems: "center",
           justifyContent: "center",
           textDecoration: "none",
-          flexShrink: 0,
+          cursor: "pointer",
         }}
       >
-        {/* WhatsApp SVG icon */}
         <svg
           viewBox="0 0 32 32"
           fill="white"
