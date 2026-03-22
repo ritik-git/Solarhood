@@ -26,10 +26,7 @@ const brands = [
   },
   {
     name: "Tata Power Solar",
-    logos: [
-      "https://logo.clearbit.com/tatapower.com",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Tata_logo.svg/320px-Tata_logo.svg.png",
-    ],
+    logos: ["/tata-power-solar.webp", "https://logo.clearbit.com/tatapower.com"],
     color: "#004990",
   },
   {
@@ -54,10 +51,7 @@ const brands = [
   },
   {
     name: "SolarEdge",
-    logos: [
-      "https://logo.clearbit.com/solaredge.com",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/SolarEdge_logo.svg/320px-SolarEdge_logo.svg.png",
-    ],
+    logos: ["/solaredge.jpg", "https://logo.clearbit.com/solaredge.com"],
     color: "#d62828",
   },
   {
