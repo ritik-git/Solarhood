@@ -7,28 +7,21 @@ import { useState } from "react";
 /* ── Brand list with cascading logo fallbacks ─────────────────────────────
    Priority: Clearbit CDN  →  Wikipedia / official CDN  →  Styled text card
    ───────────────────────────────────────────────────────────────────────── */
+/* ── Local images (public/) take priority — always loads, no CDN dependency ── */
 const brands = [
   {
     name: "Waaree",
-    logos: [
-      "https://logo.clearbit.com/waaree.com",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Waaree_Energies_Logo.png/320px-Waaree_Energies_Logo.png",
-    ],
+    logos: ["/waaree.png", "https://logo.clearbit.com/waaree.com"],
     color: "#006838",
   },
   {
     name: "Premier Solar",
-    logos: [
-      "https://logo.clearbit.com/premiersolar.com",
-    ],
+    logos: ["/premier-solar.jpg", "https://logo.clearbit.com/premiersolar.com"],
     color: "#003087",
   },
   {
     name: "Adani Solar",
-    logos: [
-      "https://logo.clearbit.com/adani.com",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Adani_2012_logo.svg/320px-Adani_2012_logo.svg.png",
-    ],
+    logos: ["/adani-solar.png", "https://logo.clearbit.com/adani.com"],
     color: "#003082",
   },
   {
@@ -41,33 +34,22 @@ const brands = [
   },
   {
     name: "Goldi Solar",
-    logos: [
-      "https://logo.clearbit.com/goldisolar.com",
-    ],
+    logos: ["/goldi-solar.jpg", "https://logo.clearbit.com/goldisolar.com"],
     color: "#e8a000",
   },
   {
     name: "Vikram Solar",
-    logos: [
-      "https://logo.clearbit.com/vikramsolar.com",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Vikram_Solar_Logo.png/320px-Vikram_Solar_Logo.png",
-    ],
+    logos: ["/vikram-solar.png", "https://logo.clearbit.com/vikramsolar.com"],
     color: "#c0392b",
   },
   {
     name: "Sungrow",
-    logos: [
-      "https://logo.clearbit.com/sungrowpower.com",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Sungrow_Power_Supply_Logo.png/320px-Sungrow_Power_Supply_Logo.png",
-    ],
+    logos: ["/sungrow.svg", "https://logo.clearbit.com/sungrowpower.com"],
     color: "#1e8bc3",
   },
   {
     name: "Solis",
-    logos: [
-      "https://logo.clearbit.com/solisinverters.com",
-      "https://logo.clearbit.com/ginlong.com",
-    ],
+    logos: ["/solis.webp", "https://logo.clearbit.com/solisinverters.com"],
     color: "#e63946",
   },
   {
@@ -80,18 +62,12 @@ const brands = [
   },
   {
     name: "Sineng",
-    logos: [
-      "https://logo.clearbit.com/si-neng.com",
-      "https://logo.clearbit.com/sineng.com",
-    ],
+    logos: ["/sineng.png", "https://logo.clearbit.com/si-neng.com"],
     color: "#1a6eb5",
   },
   {
     name: "APL Apollo",
-    logos: [
-      "https://logo.clearbit.com/aplapollo.com",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/APL_Apollo_logo.svg/320px-APL_Apollo_logo.svg.png",
-    ],
+    logos: ["/apl-apollo.png", "https://logo.clearbit.com/aplapollo.com"],
     color: "#c0392b",
   },
 ];
