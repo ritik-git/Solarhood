@@ -1,115 +1,43 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { useState } from "react";
 
-/* ── Brand list with cascading logo fallbacks ─────────────────────────────
-   Priority: Clearbit CDN  →  Wikipedia / official CDN  →  Styled text card
-   ───────────────────────────────────────────────────────────────────────── */
-/* ── Local images (public/) take priority — always loads, no CDN dependency ── */
+/* ── All logos are local /public files — no CDN, no fallback needed ─── */
 const brands = [
-  {
-    name: "Waaree",
-    logos: ["/waaree.png", "https://logo.clearbit.com/waaree.com"],
-    color: "#006838",
-  },
-  {
-    name: "Premier Solar",
-    logos: ["/premier-solar.jpg", "https://logo.clearbit.com/premiersolar.com"],
-    color: "#003087",
-  },
-  {
-    name: "Adani Solar",
-    logos: ["/adani-solar.png", "https://logo.clearbit.com/adani.com"],
-    color: "#003082",
-  },
-  {
-    name: "Tata Power Solar",
-    logos: ["/tata-power-solar.webp", "https://logo.clearbit.com/tatapower.com"],
-    color: "#004990",
-  },
-  {
-    name: "Goldi Solar",
-    logos: ["/goldi-solar.jpg", "https://logo.clearbit.com/goldisolar.com"],
-    color: "#e8a000",
-  },
-  {
-    name: "Vikram Solar",
-    logos: ["/vikram-solar.png", "https://logo.clearbit.com/vikramsolar.com"],
-    color: "#c0392b",
-  },
-  {
-    name: "Sungrow",
-    logos: ["/sungrow.svg", "https://logo.clearbit.com/sungrowpower.com"],
-    color: "#1e8bc3",
-  },
-  {
-    name: "Solis",
-    logos: ["/solis.webp", "https://logo.clearbit.com/solisinverters.com"],
-    color: "#e63946",
-  },
-  {
-    name: "SolarEdge",
-    logos: ["/solaredge.jpg", "https://logo.clearbit.com/solaredge.com"],
-    color: "#d62828",
-  },
-  {
-    name: "Sineng",
-    logos: ["/sineng.png", "https://logo.clearbit.com/si-neng.com"],
-    color: "#1a6eb5",
-  },
-  {
-    name: "APL Apollo",
-    logos: ["/apl-apollo.png", "https://logo.clearbit.com/aplapollo.com"],
-    color: "#c0392b",
-  },
+  { name: "Waaree",           logo: "/waaree.png"           },
+  { name: "Premier Solar",    logo: "/premier-solar.jpg"    },
+  { name: "Adani Solar",      logo: "/adani-solar.png"      },
+  { name: "Tata Power Solar", logo: "/tata-power-solar.webp"},
+  { name: "Goldi Solar",      logo: "/goldi-solar.jpg"      },
+  { name: "Vikram Solar",     logo: "/vikram-solar.png"     },
+  { name: "Sungrow",          logo: "/sungrow.svg"          },
+  { name: "Solis",            logo: "/solis.webp"           },
+  { name: "SolarEdge",        logo: "/solaredge.jpg"        },
+  { name: "Sineng",           logo: "/sineng.png"           },
+  { name: "APL Apollo",       logo: "/apl-apollo.png"       },
 ];
 
+/* Duplicate for seamless infinite scroll */
 const allBrands = [...brands, ...brands];
 
-/* ── BrandLogo: cascades through logo URLs before showing styled text ──── */
 function BrandLogo({ brand }: { brand: (typeof brands)[0] }) {
-  const [srcIdx, setSrcIdx] = useState(0);
-  const allFailed = srcIdx >= brand.logos.length;
-
-  const handleError = () => setSrcIdx((i) => i + 1);
-
   return (
     <div className="flex-shrink-0 mx-4 group">
       <div
-        className="flex items-center justify-center bg-white hover:bg-green-50
-                   border border-gray-200 hover:border-green-300 rounded-2xl
-                   px-6 py-4 transition-all duration-300 cursor-pointer
-                   shadow-sm hover:shadow-md w-36 h-20"
+        className="flex items-center justify-center bg-white
+                   border border-gray-200 hover:border-green-300
+                   rounded-2xl px-6 py-4 w-36 h-20
+                   shadow-sm hover:shadow-md
+                   transition-all duration-300 cursor-pointer"
       >
-        {!allFailed ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            key={srcIdx}
-            src={brand.logos[srcIdx]}
-            alt={brand.name}
-            width={96}
-            height={48}
-            className="object-contain max-h-12 w-auto grayscale group-hover:grayscale-0 transition-all duration-300"
-            onError={handleError}
-            loading="lazy"
-          />
-        ) : (
-          /* Styled brand-name pill — always looks clean */
-          <div className="flex flex-col items-center justify-center gap-0.5">
-            <span
-              className="text-center leading-tight font-black text-xs uppercase tracking-tight transition-colors duration-300"
-              style={{ color: brand.color }}
-            >
-              {brand.name}
-            </span>
-            <div
-              className="h-[2px] w-8 rounded-full mt-0.5 transition-all duration-300 group-hover:w-12"
-              style={{ background: brand.color }}
-            />
-          </div>
-        )}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={brand.logo}
+          alt={brand.name}
+          className="object-contain max-h-12 w-auto
+                     grayscale group-hover:grayscale-0
+                     transition-all duration-300"
+        />
       </div>
     </div>
   );
@@ -121,6 +49,7 @@ export default function BrandCarousel() {
       className="bg-gray-50 py-20 overflow-hidden border-y border-gray-100"
       id="brands"
     >
+      {/* Heading */}
       <div className="max-w-7xl mx-auto px-6 mb-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -138,8 +67,9 @@ export default function BrandCarousel() {
         </motion.div>
       </div>
 
-      {/* Scrolling carousel with fade masks */}
+      {/* Scrolling carousel */}
       <div className="relative">
+        {/* Fade masks */}
         <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none" />
 
